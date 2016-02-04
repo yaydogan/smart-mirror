@@ -9,6 +9,7 @@
             HueService, 
             CalendarService, 
             SearchService,
+            RssService,
             $scope, 
             $timeout, 
             $interval) {
