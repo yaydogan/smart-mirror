@@ -4,7 +4,7 @@
   "description": "The fairest of them all",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js "
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/evancohen/smart-mirror",
   "devDependencies": {
-    "cordova": "^5.4.1",
-    "electron-prebuilt": "^0.35.0"
+    "electron-prebuilt": "^0.36.5"
+  },
+  "optionalDependencies": {
+      "cordova": "^5.4.1"
   }
 }
