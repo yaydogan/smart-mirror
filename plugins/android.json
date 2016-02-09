@@ -7,12 +7,19 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        },
         "cordova-plugin-crosswalk-webview": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
+            "PACKAGE_NAME": "io.evancohen.smartmirror"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.evancohen.smartmirror"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "io.evancohen.smartmirror"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "io.evancohen.smartmirror"
+        }
+    }
 }
