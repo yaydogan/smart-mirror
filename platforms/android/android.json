@@ -29,15 +29,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"Media\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -79,23 +79,18 @@
         "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
         },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.evancohen.smartmirror"
-        },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
         },
         "cordova-plugin-media": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.evancohen.smartmirror"
         }
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "file": "plugins/cordova-plugin-whitelist/whitelist.js",
-            "id": "cordova-plugin-whitelist.whitelist",
-            "runs": true
-        },
         {
             "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
             "id": "cordova-plugin-file.DirectoryEntry",
@@ -255,6 +250,11 @@
             "clobbers": [
                 "window.Media"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-whitelist/whitelist.js",
+            "id": "cordova-plugin-whitelist.whitelist",
+            "runs": true
         }
     ]
 }

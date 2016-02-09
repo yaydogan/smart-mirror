@@ -10,16 +10,15 @@
         "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
         },
         "cordova-plugin-media": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
-        }
-    },
-    "dependent_plugins": {
-        "cordova-plugin-file": {
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
         }
-    }
+    },
+    "dependent_plugins": {}
 }
