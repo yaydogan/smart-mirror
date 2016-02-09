@@ -21,11 +21,15 @@
                     console.log("recordAudio():Audio Error: "+ err.code);
                     alert("The smart mirror needs Audio and File permissions to run. Grant these permissions and restart the app.");
                 });
-
+            
+            // Get microphone permissions
             media.setVolume(0);
             media.startRecord();
             media.stopRecord();
             media.release();
+            
+            // Get geolocation permissions
+            navigator.geolocation.getCurrentPosition(function(pos){console.log(pos);}, function(error){alert("Smart mirror needs location permissions to run", error)});
             
             receivedEvent('deviceready');
         };

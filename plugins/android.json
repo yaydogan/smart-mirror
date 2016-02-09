@@ -18,6 +18,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.evancohen.smartmirror"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "io.evancohen.smartmirror"
         }
     },
     "dependent_plugins": {}
