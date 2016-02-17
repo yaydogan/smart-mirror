@@ -1,12 +1,19 @@
 (function(angular) {
     'use strict';
 
-    function MirrorCtrl(AnnyangService, GeolocationService, WeatherService, MapService, HueService, CalendarService, $scope, $timeout, $interval) {
+    function MirrorCtrl(
+            AnnyangService, 
+            GeolocationService, 
+            WeatherService, 
+            MapService, 
+            HueService, 
+            CalendarService, 
+            XKCDService, 
+            $scope, $timeout, $interval) {
         var _this = this;
         var DEFAULT_COMMAND_TEXT = 'Say "What can I say?" to see a list of commands...';
         $scope.listening = false;
         $scope.debug = false;
-        $scope.complement = "Hi, sexy!"
         $scope.focus = "default";
         $scope.user = {};
         $scope.interimResult = DEFAULT_COMMAND_TEXT;
@@ -27,7 +34,10 @@
         _this.init = function() {
             var tick = $interval(updateTime, 1000);
             updateTime();
-            $scope.map = MapService.generateMap("Seattle,WA");
+            GeolocationService.getLocation({enableHighAccuracy: true}).then(function(geoposition){
+                console.log("Geoposition", geoposition);
+                $scope.map = MapService.generateMap(geoposition.coords.latitude+','+geoposition.coords.longitude);
+            });
             _this.clearResults();
             restCommand();
 
@@ -51,6 +61,8 @@
                 }, function(error) {
                     console.log(error);
                 });
+
+                $scope.complement = COMPLIMENTS[Math.floor(Math.random() * COMPLIMENTS.length)];
             };
 
             refreshMirrorData();
@@ -166,10 +178,13 @@
                 HueService.performUpdate(state + " " + action);
             });
 
-            // Fallback for all commands
-            AnnyangService.addCommand('*allSpeech', function(allSpeech) {
-                console.debug(allSpeech);
-                _this.addResult(allSpeech);
+            // Show xkcd comic
+            AnnyangService.addCommand('Show xkcd', function(state, action) {
+                console.debug("Fetching a comic for you.");
+                XKCDService.getXKCD().then(function(data){
+                    $scope.xkcd = data.img;
+                    $scope.focus = "xkcd";
+                });
             });
 
             var resetCommandTimeout;
@@ -183,17 +198,6 @@
                 $scope.interimResult = result[0];
                 resetCommandTimeout = $timeout(restCommand, 5000);
             });
-        };
-
-        _this.addResult = function(result) {
-            _this.results.push({
-                content: result,
-                date: new Date()
-            });
-        };
-
-        _this.clearResults = function() {
-            _this.results = [];
         };
 
         _this.init();

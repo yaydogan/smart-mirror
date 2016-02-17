@@ -293,3 +293,8 @@ ul.calendar {
   font-weight: 100;
   width: 20px;
 }
+
+.xkcd {
+  -webkit-filter:invert(100%);  
+  max-width: 100%;
+}
