@@ -88,6 +88,7 @@
           //If the type is an end date, do the same as above
           else if (type.startsWith('DTEND')) {
             cur_event.end = makeDate(type, val);
+            cur_event.sameDayEvent = (cur_event.start.dayOfYear() == cur_event.end.dayOfYear());
           }
           //Convert timestamp
           else if (type == 'DTSTAMP') {
@@ -124,7 +125,7 @@
       }
       //Run this to finish proccessing our Events.
       complete(events);
-      return service.events = service.events.concat(events);
+      return service.events = events;
     }
 
     var contains = function(input, obj) {
@@ -167,7 +168,7 @@
 
       service.events.forEach(function(itm) {
         //If the event ends after the current time or if there is no end time and the event starts today add it.
-        if ((itm.end != undefined && itm.end.isAfter(current_date)) || itm.start.diff(current_date, 'days') == 0){
+        if ((itm.end != undefined && itm.end.isAfter(current_date)) || (itm.end == undefined && itm.start.diff(current_date, 'days') == 0)) {
             future_events.push(itm);
         }
       });

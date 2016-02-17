@@ -33,14 +33,19 @@
   <body ng-controller="MirrorCtrl as commands">
     <div class="top">
       <div class="top-left">
-        <div class="date grey">{{date | date : 'EEEE, MMMM d yyyy'}}</div>
-        <div class="time">{{date | date : 'hh:mm a'}}</div>
-        <ul class="calendar fade" ng-show="focus == 'default'">
+        <div class="date small dimmed">{{date | date : 'EEEE, MMMM d yyyy'}}</div>
+        <table class="time">
+		   <tr><td rowspan=4 cellpadding=0> {{date | date : 'hh:mm'}}</td></tr>
+		   <tr><td class="sec"> {{date | date : 'ss'}}</td></tr>		   
+		   <tr><td class="am_pm"> {{date | date : 'a'}}</td></tr>
+        </table>
+        <ul class="calendar fade" ng-show="focus == 'default' && showCalendar">
             <li class="event" ng-repeat="event in calendar">
                 <div class="event-details">
-                    <span class="day">{{event.start.format('dddd') | uppercase}}</span>
+                    <span class="day light-grey">{{event.start.format('dddd')}}</span>
                     <span class="summary">{{event.SUMMARY}}</span>
-                    <div class="details">{{event.start.format('MMMM Do YYYY, h:mm:ss a')}}</div>
+                    <div ng-if="event.sameDayEvent==true"  class="details">{{event.start.format('MMM Do, h:mm a')}} - {{event.end.format('h:mm a')}}</div>
+                    <div ng-if="event.sameDayEvent==false" class="details">{{event.start.format('MMM Do, h:mm a')}} - {{event.end.format('MMM Do, h:mm a')}}</div>
                     </li>
                 </div>
         </ul>
@@ -48,19 +53,19 @@
       <div class="top-right">
         <div class="weather">
           <div class="weather-today">
-            <span class="icon dimmed wi {{currentForcast.wi}}"></span>
+            <span class="icon wi {{currentForcast.wi}}"></span> 
             <span class="tempreture">{{currentForcast.temperature}}&deg;</span>
           </div>
-          <div class="weather-week-descriptor">
-            <span>{{hourlyForcast.summary}}</span>
-            <span>{{weeklyForcast.summary}}</span>
-          </div>
+ 		  <div class="weather-week-descriptor">
+			<span>{{hourlyForcast.summary}}</span>
+			<span>{{weeklyForcast.summary}}</span>
+		  </div>
           <div class="weather-week" ng-repeat="forcast in weeklyForcast.data" ng-if="$index > 0">
             <div class="weather-week-day">
               <span class="day light-grey">{{forcast.day}}</span>
               <span class="icon-small dimmed wi {{forcast.wi}}"></span>
-              <span class="tempreture tempreture-min">{{forcast.temperatureMin}}&deg;</span>
-              <span class="tempreture tempreture-max">{{forcast.temperatureMax}}&deg;</span>
+              <span class="tempreture tempreture-min light-grey">{{forcast.temperatureMin}}&deg;</span>
+              <span class="tempreture tempreture-max light-grey">{{forcast.temperatureMax}}&deg;</span>
             </div>
           </div>
         </div>
@@ -68,13 +73,13 @@
     </div>
     <div class="container">
       <div class="middle-center">
-        <h1>{{complement}}</h1>
+        <h1 class="fade animate-grow" ng-show="focus == 'default'">{{complement}}</h1>
         <h3 ng-show="!(user.name === undefined)">{{user.name}}</h3>
         <!-- <div class="listening" ng-show="listening">Ready: {{focus}}</div> -->
         <div class="map-container animate-grow" ng-show="focus == 'map'">
           <img class="map animate-grow" ng-src="{{map}}"/>
         </div>
-        <div class="xkcd-container animate-grow" ng-show="focus == 'xkcd'">
+        <div class="xkcd-container animate-grow" ng-show="focus == 'comic'">
           <img class="xkcd animate-grow" ng-src="{{xkcd}}"/>
         </div>
       </div>
@@ -97,7 +102,7 @@
             <dd>Shows a map of your current city.</dd>
             <dt>Show map of ________</dt>
             <dd>Shows a map of the given location.</dd>
-            <dt>Show xkcd</dt>
+            <dt>Show comic</dt>
             <dd>Shows the most recent xkcd comic.</dd>
           </dl>
           <small>
@@ -135,6 +140,6 @@
       </div>
     </div>
     <!-- Sleep cover -->
-    <div ng-show="focus == 'sleep'" class="sleep-cover fade"></div>
+    <div ng-show="focus == 'sleep'" class="sleep-cover fade-slow"></div>
   </body>
 </html>

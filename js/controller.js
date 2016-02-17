@@ -17,6 +17,7 @@
         $scope.focus = "default";
         $scope.user = {};
         $scope.interimResult = DEFAULT_COMMAND_TEXT;
+        $scope.showCalendar = true;
 
         $scope.colors=["#6ed3cf", "#9068be", "#e1e8f0", "#e62739"];
 
@@ -38,10 +39,10 @@
                 console.log("Geoposition", geoposition);
                 $scope.map = MapService.generateMap(geoposition.coords.latitude+','+geoposition.coords.longitude);
             });
-            _this.clearResults();
             restCommand();
 
-            var refreshMirrorData = function() {
+            var refreshWeather = function() {
+			    console.log("Refreshing weather");
                 //Get our location and then get the weather for our location
                 GeolocationService.getLocation({enableHighAccuracy: true}).then(function(geoposition){
                     console.log("Geoposition", geoposition);
@@ -54,19 +55,31 @@
                         console.log("Hourly", $scope.hourlyForcast);
                     });
                 });
-
-                var promise = CalendarService.renderAppointments();
+            };
+			
+            var refreshCalendar = function () {    
+                console.log("Refreshing calendar");	
+			    var promise = CalendarService.renderAppointments();
                 promise.then(function(response) {
                     $scope.calendar = CalendarService.getFutureEvents();
                 }, function(error) {
                     console.log(error);
                 });
+            };
 
+            var refreshComplement = function () {     
+                console.log("Refreshing complement");			
                 $scope.complement = COMPLIMENTS[Math.floor(Math.random() * COMPLIMENTS.length)];
             };
 
-            refreshMirrorData();
-            $interval(refreshMirrorData, 3600000);
+            refreshWeather();
+            $interval(refreshWeather, 900000);  // 15 minutes
+			
+            refreshCalendar();
+            $interval(refreshCalendar, 900000);  // 15 minutes
+			
+            refreshComplement();
+            $interval(refreshComplement, 120000);  // 2 minutes
 
             //Initiate Hue communication
             HueService.init();
@@ -87,7 +100,7 @@
             AnnyangService.addCommand('Go home', defaultView);
 
             // Hide everything and "sleep"
-            AnnyangService.addCommand('Go to sleep', function() {
+            AnnyangService.addCommand('(Go to) sleep', function() {
                 console.debug("Ok, going to sleep...");
                 $scope.focus = "sleep";
             });
@@ -164,13 +177,11 @@
             // Clear log of commands
             AnnyangService.addCommand('Clear results', function(task) {
                  console.debug("Clearing results");
-                 _this.clearResults()
             });
 
             // Check the time
             AnnyangService.addCommand('what time is it', function(task) {
                  console.debug("It is", moment().format('h:mm:ss a'));
-                 _this.clearResults();
             });
 
             // Turn lights off
@@ -179,12 +190,43 @@
             });
 
             // Show xkcd comic
-            AnnyangService.addCommand('Show xkcd', function(state, action) {
+            AnnyangService.addCommand('Show (a) comic', function(state, action) {
                 console.debug("Fetching a comic for you.");
                 XKCDService.getXKCD().then(function(data){
                     $scope.xkcd = data.img;
-                    $scope.focus = "xkcd";
+                    $scope.focus = "comic";
                 });
+            });
+
+            // Hide a section 
+            AnnyangService.addCommand('Hide (the) *section', function(section) {
+                switch (section) {
+                  case 'calendar':
+                     $scope.showCalendar = false;
+                     console.debug("Hiding the ", section);
+                     break;
+                  default:
+                     console.debug("I can't hide ", section);
+                     break;
+                };
+            });
+			
+            // Show a section
+            AnnyangService.addCommand('Show (the) *section', function(section) {
+                switch (section) {
+                  case 'calendar':
+                     $scope.showCalendar = true;
+                     console.debug("Showing the ", section);
+                     break;
+                  default:
+                     console.debug("I can't show ", section);
+                     break;
+                };
+			});
+
+            // Fallback for all commands
+            AnnyangService.addCommand('*allSpeech', function(allSpeech) {
+                console.debug(allSpeech);
             });
 
             var resetCommandTimeout;
