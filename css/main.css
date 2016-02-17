@@ -312,7 +312,7 @@ ul.calendar {
 
 .icon {
   position: relative;
-  top: 0px;
+  top: -10px;
   display: inline-block;
   font-size: 45px;
   padding-right: 5px;
