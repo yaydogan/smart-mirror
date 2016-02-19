@@ -7,7 +7,7 @@
     service.events = [];
 
     service.renderAppointments = function() {
-      return loadFile(PERSONAL_CALENDAR);
+      return loadFile(config.calendar.icals);
     }
 
     var loadFile = function(urls) {
@@ -164,16 +164,17 @@
 
     service.getFutureEvents = function() {
       var future_events = [],
-        current_date = new moment();
+        current_date = new moment(),
+        end_date = new moment().add(config.calendar.maxDays, 'days');
 
       service.events.forEach(function(itm) {
-        //If the event ends after the current time or if there is no end time and the event starts today add it.
-        if ((itm.end != undefined && itm.end.isAfter(current_date)) || (itm.end == undefined && itm.start.diff(current_date, 'days') == 0)) {
+        // if there is no end time and the event starts between today and the max number of days add it.
+        if ((itm.end != undefined && (itm.end.isAfter(current_date) && itm.start.isBefore(current_date))) || itm.start.isBetween(current_date, end_date)){
             future_events.push(itm);
         }
       });
       future_events = sortAscending(future_events);
-      return future_events.slice(0, 9);
+      return future_events.slice(0, config.calendar.maxResults);
     }
 
     var sortAscending = function(events) {
