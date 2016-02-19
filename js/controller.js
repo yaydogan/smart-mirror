@@ -20,6 +20,7 @@
         $scope.user = {};
         $scope.interimResult = DEFAULT_COMMAND_TEXT;
         $scope.showCalendar = true;
+		$scope.showTraffic = config.traffic.serviceActive;
 
         //Update the time
         function updateTime(){
@@ -72,10 +73,10 @@
             };
 
             refreshWeather();
-            $interval(refreshWeather, 900000);  // 15 minutes
+            $interval(refreshWeather, config.forcast.refreshInterval * 60000);  
 			
             refreshCalendar();
-            $interval(refreshCalendar, 900000);  // 15 minutes
+            $interval(refreshCalendar, config.calendar.refreshInterval * 60000);  
 			
             refreshGreeting();
             $interval(refreshGreeting, 120000);  // 2 minutes
@@ -93,8 +94,13 @@
                 });
             };
 
-            refreshTrafficData();
-            $interval(refreshTrafficData, config.traffic.reload_interval * 60000);
+            if (config.traffic.serviceActive) {
+              refreshTrafficData();
+              $interval(refreshTrafficData, config.traffic.refreshInterval * 60000);
+            } 
+            else {
+              console.log ("Traffic service disabled.");
+            }
 
             var defaultView = function() {
                 console.debug("Ok, going to default view...");
