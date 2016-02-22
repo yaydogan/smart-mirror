@@ -192,6 +192,12 @@ ul.calendar {
 	font-family: "HelveticaNeue-Medium", sans-serif;
 }
 
+.traffic-information {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
 .time-to {
     font-weight: bold;
 }
