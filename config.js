@@ -5,7 +5,8 @@ var config = {
     // forcast.io
     forcast : {
         key : "", // Your forcast.io api key
-        units : "auto" // See forcast.io documentation if you are getting the wrong units
+        units : "auto", // See forcast.io documentation if you are getting the wrong units
+        refreshInterval : 15 // Number of minutes the information is refreshed
     },
     // Philips Hue
     hue : {
@@ -17,7 +18,8 @@ var config = {
     calendar: {
       icals : [],
       maxResults: 9, // Number of calender events to display (Defaults is 9)
-      maxDays: 365 // Number of days to display (Default is one year)
+      maxDays: 365, // Number of days to display (Default is one year)
+      refreshInterval : 15 // Number of minutes the information is refreshed
     },
     // Giphy
     giphy: {
@@ -29,6 +31,6 @@ var config = {
       origin : "", // Start of your trip. Human readable address.
       destination : "", // Destination of your trip. Human readable address.
       name : "work", // Name of your destination ex: "work"
-      reload_interval : 5 // Number of minutes the information is refreshed
+      refreshInterval : 5 // Number of minutes the information is refreshed
     }
 }

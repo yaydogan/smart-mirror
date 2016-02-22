@@ -156,7 +156,6 @@
         end_date = new moment().add(config.calendar.maxDays, 'days');
 
       service.events.forEach(function(itm) {
-        //If the event started before current time but ends after the current time or
         // if there is no end time and the event starts between today and the max number of days add it.
         if ((itm.end != undefined && (itm.end.isAfter(current_date) && itm.start.isBefore(current_date))) || itm.start.isBetween(current_date, end_date)){
             future_events.push(itm);

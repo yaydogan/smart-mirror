@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="traffic">
-          <div ng-show="!traffic.error" class="traffic-information">
+          <div ng-show="!traffic.error && showTraffic" class="traffic-information">
             <span class="time-to">Time to {{traffic.destination}}:</span>
             <span ng-show="traffic.hours > 0">{{traffic.hours}} hours and</span>
             <span>{{traffic.minutes}} minutes</span>
@@ -112,10 +112,10 @@
             <dd>Shows a map of your current city.</dd>
             <dt>Show map of ________</dt>
             <dd>Shows a map of the given location.</dd>
-            <dt>Giphy ________</dt>
-            <dd>Shows a giphy image </dd>
             <dt>Show comic</dt>
             <dd>Shows the most recent xkcd comic.</dd>
+            <dt>Giphy ________</dt>
+            <dd>Shows a giphy image </dd>
           </dl>
           <small>
             We are using node <script>document.write(process.versions.node)</script>,
