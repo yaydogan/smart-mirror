@@ -122,18 +122,18 @@ dt {
     margin-right: auto;
 }
 
-ul.calendar {
+ul.calendar, ul.todo {
     list-style: none;
     font-size: 22px;
-    margin-left: 10px;
+    
     padding:0;
 }
 
-.calendar .event{
+.calendar .event .todo .task {
     margin-bottom: 10px;
 }
 
-.calendar span {
+.calendar span, .todo span {
     display: inline-block;
 }
 
@@ -143,15 +143,35 @@ ul.calendar {
     vertical-align: top;
 }
 
-.calendar span.summary{
+.calendar span.summary {
     max-width: 400px;
+    margin-left: 10px;
 }
 
-.calendar .event-details .details{
+.calendar .event-details .details {
     font-size: 12px;
-    padding-left: 155px;
+    padding-left: 65px;
     font-family: 'Open Sans', sans-serif;
     font-weight: lighter;
+}
+
+.todo span.summary {
+    max-width: 400px;
+    margin-left: 10px;
+}
+
+.todo .details {
+    font-size: 12px;
+    padding-left: 75px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: lighter;
+}
+
+.header {
+    margin-left: 10px;
+    color: #FFF;
+    font-family: "HelveticaNeue-Light", sans-serif;
+
 }
 
 .weather {

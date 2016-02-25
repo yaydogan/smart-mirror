@@ -11,6 +11,7 @@
             XKCDService,
             GiphyService,
             TrafficService,
+            TodoService,
             $scope, $timeout, $interval) {
         var _this = this;
         var DEFAULT_COMMAND_TEXT = 'Say "What can I say?" to see a list of commands...';
@@ -73,6 +74,16 @@
                 $scope.greeting = config.greeting[Math.floor(Math.random() * config.greeting.length)];
             };
 
+            var refreshTodoList = function () {
+                console.log ("Refreshing Todo List");
+                TodoService.refreshTodoList().then(function(data) {
+                    $scope.todo = TodoService.getTaskList();
+                    console.log("ToDo List ", $scope.todo);
+                }, function(error) {
+                    console.log(error);
+                });
+            };
+
             refreshWeather();
             $interval(refreshWeather, config.forcast.refreshInterval * 60000);  
 			
@@ -81,6 +92,9 @@
 			
             refreshGreeting();
             $interval(refreshGreeting, 120000);  // 2 minutes
+
+            refreshTodoList();
+            $interval(refreshTodoList, config.todo.refreshInterval * 60000);
 
             var refreshTrafficData = function() {
                 TrafficService.getTravelDuration().then(function(durationTraffic) {
@@ -136,6 +150,7 @@
             // Hide everything and "sleep"
             AnnyangService.addCommand('Show map', function() {
                 console.debug("Going on an adventure?");
+                responsiveVoice.speak("Showing map", "UK English Female");
                 GeolocationService.getLocation({enableHighAccuracy: true}).then(function(geoposition){
                     console.log("Geoposition", geoposition);
                     $scope.map = MapService.generateMap(geoposition.coords.latitude+','+geoposition.coords.longitude);
@@ -250,6 +265,10 @@
                      break;
                 };
 			});
+
+            AnnyangService.addCommand('(How is) Current weather', function() {
+                responsiveVoice.speak ('Currently it is'+ WeatherService.currentForcast().summary + ' and ' + WeatherService.currentForcast().temperature + 'degrees.');
+            });
 
             // Fallback for all commands
             AnnyangService.addCommand('*allSpeech', function(allSpeech) {
