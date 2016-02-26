@@ -31,7 +31,8 @@ var config = {
       origin : "", // Start of your trip. Human readable address.
       destination : "", // Destination of your trip. Human readable address.
       name : "work", // Name of your destination ex: "work"
-      refreshInterval : 5 // Number of minutes the information is refreshed
+      refreshInterval : 5, // Number of minutes the information is refreshed
+      serviceActive : true
     },
     todo: {
       key : "", //Todoist API_KEY
