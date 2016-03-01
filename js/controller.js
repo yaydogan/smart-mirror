@@ -21,7 +21,8 @@
         $scope.user = {};
         $scope.interimResult = DEFAULT_COMMAND_TEXT;
         $scope.showCalendar = true;
-		$scope.showTraffic = config.traffic.serviceActive;
+        $scope.showTodo     = true;
+		$scope.showTraffic  = config.traffic.serviceActive;
 
         //Update the time
         function updateTime(){
@@ -84,6 +85,15 @@
                 });
             };
 
+            var refreshComic = function () {
+            	console.log("Refreshing comic");
+            	XKCDService.initDilbert().then(function(data) {
+            		console.log("Dilbert comic initialized");
+            	}, function(error) {
+            		console.log(error);
+            	});
+            };
+
             refreshWeather();
             $interval(refreshWeather, config.forcast.refreshInterval * 60000);  
 			
@@ -95,6 +105,9 @@
 
             refreshTodoList();
             $interval(refreshTodoList, config.todo.refreshInterval * 60000);
+
+            refreshComic();
+            $interval(refreshTodoList, 12*60*60000); // 12 hours
 
             var refreshTrafficData = function() {
                 TrafficService.getTravelDuration().then(function(durationTraffic) {
@@ -240,16 +253,30 @@
                 });
             });
 
+            // Show Dilbert comic
+            AnnyangService.addCommand('Show Dilbert (comic)', function(state, action) {
+                console.debug("Fetching a Dilbert comic for you.");
+                var dilbert = XKCDService.getDilbert("today");
+                $scope.dilbert = dilbert.content;
+                $scope.comicTitle = dilbert.title;
+                $scope.focus = "dilbert";
+            });
+
+
             // Hide a section 
             AnnyangService.addCommand('Hide (the) *section', function(section) {
                 switch (section) {
                   case 'calendar':
-                     $scope.showCalendar = false;
-                     console.debug("Hiding the ", section);
-                     break;
-                  default:
-                     console.debug("I can't hide ", section);
-                     break;
+                    $scope.showCalendar = false;
+                    console.debug("Hiding the ", section);
+                    break;
+                  case 'reminders':
+                    $scope.showTodo = false;
+                    console.debug("Hiding the ", section);
+                  break;
+                    default:
+                    console.debug("I can't hide ", section);
+                  break;
                 };
             });
 			
@@ -260,11 +287,22 @@
                      $scope.showCalendar = true;
                      console.debug("Showing the ", section);
                      break;
+                  case 'reminders':
+                     $scope.showTodo = true;
+                     console.debug("Showing the ", section);
+                     break;
                   default:
                      console.debug("I can't show ", section);
                      break;
                 };
 			});
+
+            // Refresh Reminders
+            AnnyangService.addCommand('Refresh reminder', refreshTodoList);
+
+            // Refresh Calendar
+            AnnyangService.addCommand('Refresh calendar', refreshCalendar);
+
 
             AnnyangService.addCommand('(How is) Current weather', function() {
                 responsiveVoice.speak ('Currently it is'+ WeatherService.currentForcast().summary + ' and ' + WeatherService.currentForcast().temperature + 'degrees.');

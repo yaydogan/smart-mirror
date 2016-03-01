@@ -370,3 +370,12 @@ ul.calendar, ul.todo {
   -webkit-filter:invert(100%);
   max-width: 100%;
 }
+
+.dilbert {
+  -webkit-filter:  grayscale(100%);
+  max-width: 500px;
+}
+
+.comic-title {
+    margin-top: 10px;
+}

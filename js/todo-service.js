@@ -44,10 +44,6 @@
       return service.tasks = tasks;
     };
 
-    service.deleteTask = function(taskId) {
-      return $http.post('https://todoist.com/API/deleteItems?ids=['+taskId+']&token='+config.todo.key)
-    };
-
     return service;
   }
 

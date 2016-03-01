@@ -26,6 +26,7 @@
     <script src="js/calendar-service.js"></script>
     <script src="js/traffic-service.js"></script>
     <script src="js/controller.js"></script>
+
     <!-- Styles and Resources -->
     <link rel="shortcut icon" href="favicon.ico" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800,700' rel='stylesheet' type='text/css'>
@@ -54,7 +55,7 @@
                 </div>
             </li>
         </ul>
-        <ul class="todo fade" ng-show="focus == 'default'">
+        <ul class="todo fade" ng-show="focus == 'default' && showTodo">
           <div class="header">Reminders</div>
           <li class="task" ng-repeat="task in todo">
             <div class="task-details">
@@ -108,7 +109,13 @@
         </div>
         <div class="xkcd-container animate-grow" ng-show="focus == 'comic'">
           <img class="xkcd animate-grow" ng-src="{{xkcd}}"/>
+          <div class="title">{{comicTitle}}</div>
         </div>
+        <div class="dilbert-container animate-grow" ng-show="focus == 'dilbert'">
+          <img class="dilbert animate-grow" ng-src="{{dilbert}}"/>
+          <div class="comic-title">{{comicTitle}}</div>
+        </div>
+
       </div>
       <div class="bottom-center">
         <!-- Command list -->
