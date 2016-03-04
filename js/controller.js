@@ -295,6 +295,20 @@
                 };
 			});
 
+            // Delete task id - id is the display id 1, 2, etc...
+            AnnyangService.addCommand('Delete task *id', function(id) {
+                TodoService.removeTask(id).then(function(){
+                    setTimeout(refreshTodoList, 1000);
+                });
+            });
+
+            // Add task - just say task description
+            AnnyangService.addCommand('Add task *id', function(id) {
+                TodoService.addTask(id).then(function(){
+                    setTimeout(refreshTodoList, 1000);
+                });
+            });
+
             // Refresh Reminders
             AnnyangService.addCommand('Refresh reminder', refreshTodoList);
 

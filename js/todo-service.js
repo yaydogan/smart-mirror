@@ -44,6 +44,28 @@
       return service.tasks = tasks;
     };
 
+    service.addTask = function(spokenWords){
+      console.log("Add Task : ", spokenWords);
+      var spokenWordsCap = spokenWords.split(' ').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      return $http.post('https://todoist.com/API/addItem?content=' + spokenWordsCap + '&project_id='+config.todo.project+'&priority=1&token=' + config.todo.key); 
+    }; 
+
+    service.removeTask = function(spokenWords){ 
+      if(service.tasks === null){
+          return null;
+      } 
+      var idx = Number(spokenWords);
+      var taskId = 0;
+
+      service.tasks.forEach(function(itm) {
+        if (itm.dispId == idx) {
+          taskId = itm.id;
+        };
+      });
+      console.log("Delete Task : ", idx + '[' + taskId + ']');
+      return $http.post('https://todoist.com/API/deleteItems?ids=['+ taskId +']&token='+config.todo.key);
+    };
+
     return service;
   }
 
