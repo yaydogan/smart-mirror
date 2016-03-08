@@ -65,6 +65,7 @@
         }
         //If we are in an event
         else if (in_event) {
+
           //var lntrim = ln.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
           //var lnsplit = lntrim.split(':');
           //type = lnsplit[0];
@@ -97,7 +98,11 @@
           }
 
           //Add the value to our event object.
-          cur_event[type] = val;
+
+          if ( type !== 'SUMMARY' || (type=='SUMMARY' && cur_event['SUMMARY'] == undefined)) {
+            cur_event[type] = val;
+          }
+          
           if (cur_event['SUMMARY'] !== undefined && cur_event['RRULE'] !== undefined) {
             var options = new RRule.parseString(cur_event['RRULE']);
       			options.dtstart = cur_event.start.toDate();
