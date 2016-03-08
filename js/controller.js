@@ -12,6 +12,7 @@
             GiphyService,
             TrafficService,
             TodoService,
+            RssService,
             $scope, $timeout, $interval) {
         var _this = this;
         var DEFAULT_COMMAND_TEXT = 'Say "What can I say?" to see a list of commands...';
@@ -85,6 +86,16 @@
                 });
             };
 
+            var refreshRss = function () {
+                console.log ("Refreshing RSS");
+                $scope.news = null;
+                RssService.refreshRssList();
+            };
+
+            var updateNews = function() {
+                $scope.news = RssService.getNews();
+            };
+
             var refreshComic = function () {
             	console.log("Refreshing comic");
             	XKCDService.initDilbert().then(function(data) {
@@ -108,6 +119,12 @@
 
             refreshComic();
             $interval(refreshTodoList, 12*60*60000); // 12 hours
+
+            refreshRss();
+            $interval(refreshRss, config.rss.refreshInterval * 60000);
+
+            updateNews();
+            $interval(updateNews, 8000);
 
             var refreshTrafficData = function() {
                 TrafficService.getTravelDuration().then(function(durationTraffic) {

@@ -26,6 +26,7 @@
     <script src="js/calendar-service.js"></script>
     <script src="js/traffic-service.js"></script>
     <script src="js/controller.js"></script>
+    <script src="js/rss-service.js"></script>
 
     <!-- Styles and Resources -->
     <link rel="shortcut icon" href="favicon.ico" />
@@ -145,6 +146,15 @@
             Chrome <script>document.write(process.versions.chrome)</script>,
             and Electron <script>document.write(process.versions.electron)</script>.
           </small>
+        </div>
+        <div class="fade animate-grow" ng-show="focus == 'default' && news != null">
+          <div class="news-title dimmed">
+            <span><i class="fa fa-rss" style="margin-right: 5px";></i></span>
+            <span>Source: {{news.title}},   Last Updated: {{news.lastUpdated.format('MMM DD, h:mm a')}} </span>
+          </div>
+          <div class="news-content">
+            <span>{{news.content}}</span>
+          </div>
         </div>
 
         <div class="interim-result" ng-bind="interimResult"></div>
