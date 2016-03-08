@@ -38,5 +38,9 @@ var config = {
       key : "", //Todoist API_KEY
       project : "",  // Default project id to add tasks using voice control
       refreshInterval : 15 // Number of minutes the information is refreshed
+    },
+    rss: {
+      feeds : [],
+      refreshInterval : 120 // Number of minutes the information is refreshed
     }
 }
