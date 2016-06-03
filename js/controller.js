@@ -23,6 +23,7 @@
         $scope.interimResult = DEFAULT_COMMAND_TEXT;
         $scope.showCalendar = true;
         $scope.showTodo     = true;
+        $scope.shownews     = true;
 		$scope.showTraffic  = config.traffic.serviceActive;
 
         //Update the time
@@ -93,7 +94,8 @@
             };
 
             var updateNews = function() {
-                $scope.news = RssService.getNews();
+                $scope.shownews = false;
+                setTimeout(function(){ $scope.news = RssService.getNews(); $scope.shownews = true; }, 990);
             };
 
             var refreshComic = function () {
