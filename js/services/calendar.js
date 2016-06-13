@@ -7,8 +7,18 @@
     service.events = [];
 
     service.getCalendarEvents = function() {
+      var deferred = $q.defer();
+
       service.events = [];
-      return loadFile(config.calendar.icals);
+      if(typeof config.calendar != 'undefined' && typeof config.calendar.icals != 'undefined'){
+        loadFile(config.calendar.icals).then(function(){
+          deferred.resolve();
+        });
+      } else {
+        deferred.reject("No iCals defined");
+      }
+
+      return deferred.promise;
     }
 
     var loadFile = function(urls) {
@@ -99,9 +109,13 @@
           if ( type !== 'SUMMARY' || (type=='SUMMARY' && cur_event['SUMMARY'] == undefined)) {
             cur_event[type] = val;
           }
-          if (cur_event['SUMMARY'] !== undefined && cur_event['RRULE'] !== undefined) {
+          var keys = Object.keys(cur_event);
+          if (cur_event['SUMMARY'] !== undefined && cur_event['RRULE'] !== undefined &&
+              (keys.some(function(k){ return ~k.indexOf("DTSTART") })) &&
+                keys.some(function(k){ return ~k.indexOf("DTEND") })) {
             var options = new RRule.parseString(cur_event['RRULE']);
       			options.dtstart = cur_event.start.toDate();
+      			var event_duration = cur_event.end.diff(cur_event.start,'minutes');
       			var rule = new RRule(options);
             var oneYear = new Date();
       			oneYear.setFullYear(oneYear.getFullYear() + 1);
@@ -111,8 +125,10 @@
               recuring_event.SUMMARY = cur_event.SUMMARY;
       				var dt = new Date(dates[date]);
       				var startDate = moment(dt);
+      				var endDate = moment(dt);
+              endDate.add(event_duration, 'minutes');
               recuring_event.start = startDate;
-              recuring_event.end = startDate;
+              recuring_event.end = endDate;
               if(!contains(events, recuring_event)) {
                 events.push(recuring_event);
               }
