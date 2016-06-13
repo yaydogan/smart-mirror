@@ -95,7 +95,7 @@
 
             var updateNews = function() {
                 $scope.shownews = false;
-                setTimeout(function(){ $scope.news = RssService.getNews(); $scope.shownews = true; }, 990);
+                setTimeout(function(){ $scope.news = RssService.getNews(); $scope.shownews = true; }, 1000);
             };
 
             var refreshComic = function () {

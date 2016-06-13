@@ -380,6 +380,11 @@ ul.calendar, ul.todo {
     margin-top: 10px;
 }
 
+.news {
+    height: 75px; 
+    margin-bottom: 5px;
+}
+
 .news-title {
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
